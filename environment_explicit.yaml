@@ -1,0 +1,21 @@
+name: cell-inference
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - numpy
+  - snakemake
+  - gdown
+  - matplotlib
+  - pypdf
+  - pip:
+      - cell-flower==1.0.1
+      - joblib==1.4.2
+      - networkx==3.4.2
+      - py-raccoon==1.0.1
+      - scikit-learn==1.6.1
+      - scipy==1.15.1
+      - snakemake-executor-plugin-slurm==0.15.0
+      - snakemake-executor-plugin-slurm-jobstep==0.2.1
+      - threadpoolctl==3.5.0

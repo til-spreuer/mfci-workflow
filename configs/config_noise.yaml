@@ -1,0 +1,33 @@
+group: noise
+
+graph_class:
+  ER:
+    n: [40]
+    p: [0.9]
+    two_cells: [80]
+    flows: [64]
+    flow_mult: [1]
+    flow_add: [0]
+    noise_mult: [0, 0.2, 0.4, 0.6, 0.8, 1]
+    independent_flows: [True]
+    remove_unused_edges: [False]
+
+# To deactivate an option let it empty/None. No combination with it will be chosen
+# If a method should be activated but no additional options can/should be submitted
+# use an empty dict {}.
+# So to quickly disable whole method: Add toplevel argument with None (not [None])
+inference:
+  mat_fact:
+    n_best: [1]
+    n_candidates: [5]
+    harmonic_method_and_params:
+      2: {} # Pseudo-Inverse
+    candidate_selection_and_params:
+      # 5: { w_approx_F: [1], w_boundary_one: [1], w_close_discrete: [1] } # Weighted
+      1: {}
+    discretizing_method_and_params:
+      1: {} # RankedEdges
+
+    lr_method_and_params:
+      1: # SVD
+        r: [16]

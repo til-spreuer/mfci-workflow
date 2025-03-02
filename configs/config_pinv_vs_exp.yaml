@@ -1,0 +1,29 @@
+group: less-iterations
+
+graph_class:
+  ER:
+    n: [40]
+    p: [0.9]
+    two_cells: [50]
+    flows: [64]
+    flow_mult: [1]
+    flow_add: [0]
+    noise_mult: [0.3]
+    independent_flows: [True]
+    remove_unused_edges: [False]
+
+inference:
+  mat_fact:
+    n_best: [1, 8]
+    n_candidates: [8, -1]
+    harmonic_method_and_params:
+      1: {}
+      2: {}
+    candidate_selection_and_params:
+      1: {}
+    discretizing_method_and_params:
+      1: {}
+    lr_method_and_params:
+      4:
+        r: [8]
+      5:

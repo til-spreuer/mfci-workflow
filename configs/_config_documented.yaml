@@ -1,0 +1,140 @@
+# This config serves as a documenation and is not designed to be used
+# (althoug it could be used)
+# Also see other configs for smaller examples
+
+# The grouph defines the baseline algorithm
+# as well as the amount of 2-cells to infer and the repetitions (different seeds)
+# and if the used memory should be roughly estimated (takes very long, use with caution)
+# Also the config.yaml in the same directory as the Snakefile
+group: default
+
+########### General Rules of use ###########
+# Values for properties have to be provided as a list (even if it is a single item)
+# Then every possible combination is tested. e.g.
+# example:
+#   a: [foo, bar]
+#   b: [buz, biz]
+# then tests {"a"}: "foo", "b": "buz"}, {"a": "foo", "b": "biz"}, {"a": "bar", "b": "buz"}, {"a": "bar", "b": "biz"},
+# Similar for properties that can take dicionaries as values they also get expanded
+#
+#example:
+# a: { foo: [42.0, 1337], bar: [True, False] }
+#gets expanded to test:
+# {"a": {"foo": 42.0, "bar": True }}, {"a": {"foo": 1337, "bar": True}},
+# {"a": {"foo": 42.0, "bar": False}}, {"a": {"foo": 1337, "bar": False}}
+#
+# Notice the typecast into int, floats, bools and strings.
+
+########### Cell Complex specific ###########
+# In the Graph classes, you can define which graph classes to test
+# Implemented are the 4:
+# TAXI: Uses the real-world data set (see paper for references)
+# ER: Erdős–Rényi random graphs
+# WS: (connected) Watts–Strogatz random graphs
+# BA: Barabási–Albert random graphs
+#
+# Every class has the optional property "_enabled" to disable a class without commenting or deleting
+# Otherwise there are the following shared properties
+# For all "flows": How many flows (per edge)
+# For all synthetic/sampled graphs:
+#  two_cells: The amount of sampled and added 2-cells
+#  flow_mult: The variance of the random normal signal per flows (average always 0)
+#  flow_add: Flat value added to the flow of sampled 2-cells (respecting orientation)
+#  noise_mult: Variance of the noise (average always 0)
+#  independent_flows: True each flow of a 2-cell has own signal drawn
+#                     False they share a value and only the noise differs
+#                     (can be interpreted as multiple measurements of same flow with different noise)
+#  remove_unused_edges: If True, remove all edges not part of a sampled 2-cell
+#  The n, p, k and m are the corresponding values to NetworkX (if in doubt see their according docs)
+
+graph_class:
+  TAXI:
+    flows: [4, 16]
+    _enabled: True
+  ER:
+    n: [10]
+    p: [0.9, 1]
+    two_cells: [10]
+    flows: [16]
+    flow_mult: [1]
+    flow_add: [1]
+    noise_mult: [0.5]
+    independent_flows: [True, False]
+    remove_unused_edges: [True, False]
+    _enabled: False
+  WS:
+    n: [10]
+    p: [0.9]
+    k: [8]
+    two_cells: [10]
+    flows: [8]
+    flow_mult: [1]
+    flow_add: [0.]
+    noise_mult: [0.5]
+    independent_flows: [True]
+    remove_unused_edges: [False]
+  BA:
+    n: [20]
+    m: [6]
+    two_cells: [10]
+    flow_mult: [1.]
+    flow_add: [0.]
+    noise_mult: [0.2]
+    flows: [4]
+    independent_flows: [False]
+    remove_unused_edges: [True]
+
+########### Inference algorithm specific ###########
+# To deactivate an option let it empty/None or remove it completely. No combination with it will be chosen
+# If a method should be activated but no additional options can/should be submitted
+# use an empty dict {}.
+# The Numbers only show shorthand notation. For explanations see the commons.py
+inference:
+  mat_fact: # Matrix Factorization Approach
+    n_best: [1, 2] # How many Cells should be added per iteration
+    n_candidates:
+      [-1, 1, 2] # How many candidates to evaluated
+      # -1 is special in a sense that evaluation is skipped and infers exactly n_best many cells
+    harmonic_method_and_params: # How the Harmonic Flow is calculated/approximated
+      1: {} # Explicit
+      2: {} # Pseudo-Inverse
+      3: {} # Constrained Optimization
+    lr_method_and_params: # How to calculate the low-rank approximation of the (approximated) harmonic flow
+      # Note that r has to be at least as big as n_candidates (or n_best if n_candidates==-1)
+      # Otherwise a sanity check will fail and that combination is skipped without warning
+      1: # SVD
+        r: [2]
+      2: # LU
+        r: [2]
+      3: # Constrained Optimization, manual Gradient
+        r: [2]
+        w_boundary_one: [0, 1]
+        w_approx_F: [1]
+        w_close_discrete: [0, 1]
+        iterations: [40]
+      4: # Independent Component Analysis
+        r: [2]
+      5: # Sparse Principal Component Analysis
+        r: [2]
+    candidate_selection_and_params: # How to select the colmuns from the low rank approximation
+      1: {} # BL1
+      2: {} # CL1
+      3: {} # BCloseDiscrete
+      4: {} # ApproxF
+      5: # Weighted
+        w_approx_F: [1]
+        w_boundary_one: [0, 1]
+        w_close_discrete: [0, 1]
+    discretizing_method_and_params: # How to discretize the chosen low-rank columns
+      1: {} # RankedEdges
+      2: {} # ProbabilityWalk
+      3: {} # DiscreteFirst
+
+  # Optional. The baseline algorithm config will be added as necessary
+  cell_flower:
+    n_clusters: [11, 0] # needs n_clusters==0 for MAX heuristic (3) to allow for filtered grid search
+    n_candidates: [11, 1] # The amount of candidates to evaluate each iteration
+    heuristic: [
+        4, # Similarity
+        3, # MAX
+      ]

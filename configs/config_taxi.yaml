@@ -1,0 +1,31 @@
+group: default
+
+graph_class:
+  TAXI:
+    flows: [64, 128]
+
+# To deactivate an option let it empty/None. No combination with it will be chosen
+# If a method should be activated but no additional options can/should be submitted
+# use an empty dict {}.
+# So to quickly disable whole method: Add toplevel argument with None (not [None])
+inference:
+  mat_fact:
+    n_best: [1, 8]
+    n_candidates: [-1, 8]
+    harmonic_method_and_params:
+      2: {} # Pseudo-Inverse
+    candidate_selection_and_params:
+      1: {} # BL1
+    discretizing_method_and_params:
+      1: {} # RankedEdges
+      2: {} # ProbabilityWalk
+    lr_method_and_params:
+      1: # SVD
+        r: [16]
+      4: # ICA
+        r: [16]
+  # Comparsion with Max heuristic as well
+  cell_flower:
+    n_candidates: [1]
+    n_clusters: [0]
+    heuristic: [3]

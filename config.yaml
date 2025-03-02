@@ -1,0 +1,17 @@
+## Baseline/cell_flowers' Spanning Tree Heuristic
+default:
+  n_clusters: 11
+  n_candidates: 11
+  heuristic: 4
+  iterations: 100
+  repetitions: 15
+  trace_memory: False
+
+# Values from default are inheritted
+# Remember n_clusters==0 for heuristic==3 to work
+less-iterations:
+  iterations: 60
+
+noise:
+  repetitions: 30
+  iterations: 40
