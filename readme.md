@@ -1,5 +1,7 @@
 # Matrix Factorization Cell Inference
 
+<img align="right" width="200" style="margin-top:-5px" src="src/LOGO_ERC-FLAG_FP.png">
+
 This workflow was used to construct the figures for the paper: Faster Inference of Cell Complexes from Flows via
 Matrix Factorization.
 
@@ -33,12 +35,13 @@ To use snakemake: <https://snakemake.readthedocs.io/en/stable/>
 3. Activate the environment: `conda activate flow`
 4. Clone this repository
 5. Run snakemake in the cloned repository: `snakemake all -c #CORES`
+  - With all configurations files enabled, there are ambiguous rules, so run `snakemake all --allow-ambiguity -c #CORES` instead.
 
 The `./configs` folder contains different combinations of graph classes and algorithms.
 Every possible (and sane) combination is then computed.
 A `.pdf` is created combining every such combination in a single file named `.out/plot_combined/plot_[CONFIG_NAME]`
 for a configuration file named `config_[CONFIG_NAME].yaml`.
-Depending on the configuration files `--allow-ambiguity` may be necessary (for step 4: Run snakemake).
+Depending on the configuration files `--allow-ambiguity` may be necessary (for step 5: Run snakemake).
 More information in [Configuration](#configuring-the-workflow)
 
 ### Cluster/SLURM Execution
@@ -146,3 +149,9 @@ Additionally, some hard-coded Strings are less intuitive, e.g. "HASH" as a separ
 
 The `n_best` parameter determines the maximum amount of cells that are added in each iteration.
 Each 2-cell is only added if it unique, but the same 2-cell might be inferred multiple times.
+
+## Acknowledgements
+
+Funded by the European Union (ERC, HIGH-HOPeS, 101039827). Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Research Council Executive Agency. Neither the European Union nor the granting authority can be held responsible for them.
+
+Parameter search was performed with computing resources granted by RWTH Aachen University under project *thes1725*.
