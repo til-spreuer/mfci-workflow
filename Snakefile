@@ -26,6 +26,20 @@ def get_runtime(wildcards, attempt):
     elif attempt == 3:
         return 120
 
+rule paper:
+    input:
+        "out/noise_robustness.pdf",
+        expand("out/exp_vs_pinv/{metric}.pdf", metric=["cumulative_times", "errors"]),
+        expand("out/taxi_tradeoffs/{metric}.pdf", metric=["cumulative_times", "errors"]),
+        expand(
+            "out/lr_comparsions/lr_on_er_{metric}.pdf",
+            metric=["errors", "cumulative_times"],
+        ),
+    shell:
+      "echo 'Creation of figures from paper done. Figures have been adapted with Inkscape for the paper'"
+
+
+
 
 rule all:
     input:
