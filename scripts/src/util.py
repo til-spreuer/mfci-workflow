@@ -5,7 +5,6 @@ from typing import List
 from cell_flower.detection import project_flow
 import scipy
 import numpy as np
-import dill
 from scipy.sparse import csc_array
 
 """
@@ -26,20 +25,6 @@ def normalize_cell(cell):
 
 def remove_two_cells(CC: cf.CellComplex):
     return cf.nx_graph_to_cc(cf.cc_to_nx_graph(CC))[0]
-
-
-def write_cc_with_flow(CC: cf.CellComplex, F: np.ndarray, path: str | os.PathLike):
-    directory = Path(path).parent
-    directory.mkdir(parents=True, exist_ok=True)
-
-    with open(path, "wb+") as f:
-        dill.dump((CC, F), f)
-
-
-def read_cc_with_flow(path: str | os.PathLike):
-    with open(path, "rb") as f:
-        CC, F = dill.load(f)
-    return CC, F
 
 
 def sort_cells(cells: List[tuple[int, ...]]):
