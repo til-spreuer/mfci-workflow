@@ -20,7 +20,8 @@ inference:
     harmonic_method_and_params:
       2: {}
     candidate_selection_and_params:
-      1: {}
+      # 1: {}
+      5: { w_approx_F: [1], w_boundary_one: [0], w_close_discrete: [0] } # Weighted
     discretizing_method_and_params:
       1: {}
     lr_method_and_params:

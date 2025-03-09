@@ -50,9 +50,9 @@ inference:
         r: [8]
       3:
         r: [8]
-        w_boundary_one: [1]
+        w_boundary_one: [0]
         w_approx_F: [1]
-        w_close_discrete: [1]
+        w_close_discrete: [0]
         iterations: [40, 200]
       4:
         r: [8]

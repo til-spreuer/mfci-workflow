@@ -23,8 +23,8 @@ inference:
     harmonic_method_and_params:
       2: {} # Pseudo-Inverse
     candidate_selection_and_params:
-      # 5: { w_approx_F: [1], w_boundary_one: [1], w_close_discrete: [1] } # Weighted
-      1: {}
+      5: { w_approx_F: [1], w_boundary_one: [0], w_close_discrete: [0] } # Weighted
+      # 1: {}
     discretizing_method_and_params:
       1: {} # RankedEdges
 
