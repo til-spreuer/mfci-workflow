@@ -27,6 +27,6 @@ inference:
         r: [16]
   # Comparsion with Max heuristic as well
   cell_flower:
-    n_candidates: [1]
-    n_clusters: [0]
-    heuristic: [3]
+    n_candidates: [1, 7, 17]
+    n_clusters: [0, 7, 17]
+    heuristic: [3, 4]

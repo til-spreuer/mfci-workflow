@@ -1,6 +1,5 @@
 configfile: "config.yaml"
 
-
 import itertools
 import yaml
 import scripts.helpers
@@ -37,9 +36,6 @@ rule paper:
         ),
     shell:
       "echo 'Creation of figures from paper done. Figures have been adapted with Inkscape for the paper'"
-
-
-
 
 rule all:
     input:
@@ -92,6 +88,50 @@ rule noise_robustness:
         cmap="viridis",
     output:
         "out/noise_robustness.pdf",
+    script:
+        "scripts/plot_csvs.py"
+
+rule rank_robustness:
+    input: 
+          [f"out/csvs/less-iterations/HASHER/nTD40/pTD0DOT9/two_cellsTD50/flowsTD64/flow_multTD1/flow_addTD0/noise_multTD0DOT3/independent_flowsTDTrue/remove_unused_edgesTDFalse/HASHmat_fact/candidate_selection_and_paramsTDBL1TDLBRB/discretizing_method_and_paramsTDRANKED_EDGESTDLBRB/harmonic_method_and_paramsTDPINVTDLBRB/lr_method_and_paramsTDICATDLBQTrQTCLN1RB/n_bestTD1/n_candidatesTD1/errors.csv",
+          f"out/csvs/less-iterations/HASHER/nTD40/pTD0DOT9/two_cellsTD50/flowsTD64/flow_multTD1/flow_addTD0/noise_multTD0DOT3/independent_flowsTDTrue/remove_unused_edgesTDFalse/HASHmat_fact/candidate_selection_and_paramsTDBL1TDLBRB/discretizing_method_and_paramsTDRANKED_EDGESTDLBRB/harmonic_method_and_paramsTDPINVTDLBRB/lr_method_and_paramsTDICATDLBQTrQTCLN5RB/n_bestTD1/n_candidatesTD1/errors.csv",
+          f"out/csvs/less-iterations/HASHER/nTD40/pTD0DOT9/two_cellsTD50/flowsTD64/flow_multTD1/flow_addTD0/noise_multTD0DOT3/independent_flowsTDTrue/remove_unused_edgesTDFalse/HASHmat_fact/candidate_selection_and_paramsTDBL1TDLBRB/discretizing_method_and_paramsTDRANKED_EDGESTDLBRB/harmonic_method_and_paramsTDPINVTDLBRB/lr_method_and_paramsTDICATDLBQTrQTCLN13RB/n_bestTD1/n_candidatesTD1/errors.csv",
+          f"out/csvs/less-iterations/HASHER/nTD40/pTD0DOT9/two_cellsTD50/flowsTD64/flow_multTD1/flow_addTD0/noise_multTD0DOT3/independent_flowsTDTrue/remove_unused_edgesTDFalse/HASHmat_fact/candidate_selection_and_paramsTDBL1TDLBRB/discretizing_method_and_paramsTDRANKED_EDGESTDLBRB/harmonic_method_and_paramsTDPINVTDLBRB/lr_method_and_paramsTDICATDLBQTrQTCLN8RB/n_bestTD1/n_candidatesTD8/errors.csv",
+          f"out/csvs/less-iterations/HASHER/nTD40/pTD0DOT9/two_cellsTD50/flowsTD64/flow_multTD1/flow_addTD0/noise_multTD0DOT3/independent_flowsTDTrue/remove_unused_edgesTDFalse/HASHmat_fact/candidate_selection_and_paramsTDBL1TDLBRB/discretizing_method_and_paramsTDRANKED_EDGESTDLBRB/harmonic_method_and_paramsTDPINVTDLBRB/lr_method_and_paramsTDICATDLBQTrQTCLN13RB/n_bestTD1/n_candidatesTD8/errors.csv",
+          f"out/csvs/less-iterations/HASHER/nTD40/pTD0DOT9/two_cellsTD50/flowsTD64/flow_multTD1/flow_addTD0/noise_multTD0DOT3/independent_flowsTDTrue/remove_unused_edgesTDFalse/HASHmat_fact/candidate_selection_and_paramsTDBL1TDLBRB/discretizing_method_and_paramsTDRANKED_EDGESTDLBRB/harmonic_method_and_paramsTDPINVTDLBRB/lr_method_and_paramsTDICATDLBQTrQTCLN13RB/n_bestTD1/n_candidatesTD13/errors.csv",
+          ]
+    params:
+        labels=[
+            r"$r=1, can=1$",
+            r"$r=5, can=1$",
+            r"$r=13, can=1$",
+            r"$r=8, can=8$",
+            r"$r=13, can=8$",
+            r"$r=13, can=13$"
+        ],
+        colors=[
+          "#fde725",
+          "#35b779",
+          "#440154",
+          "#31688e",
+          "#440154",
+          "#440154",
+        ],
+        linestyles=[
+          "dotted",
+          "dotted",
+          "dotted",
+          "dashed",
+          "dashed",
+          "solid"
+        ],
+        xlabel="No. Cells Added",
+        ylabel=lambda wc: r"$||$harm$(\mathbf{F})||_2$",
+        title="Rank Robustness",
+        ylim=[0,220],
+        confidence_alpha=0.1
+    output:
+        "out/rank_robustness.pdf",
     script:
         "scripts/plot_csvs.py"
 

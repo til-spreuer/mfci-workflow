@@ -64,21 +64,31 @@ except AttributeError:
 except ValueError:
     print(f"[WARN]: {snakemake.params.cmap} is no valid cmap. Use default instead")
 
+colors = None
+try:
+    colors = snakemake.params.colors
+except AttributeError:
+    pass
+linesytles = None
+try:
+    linesytles = snakemake.params.linestyles
+except AttributeError:
+    pass
+
 
 for ix, (label, csv) in enumerate(zip(snakemake.params.labels, snakemake.input)):
     df = pd.read_csv(csv, index_col=0)
     df_agg = df.aggregate(["mean", "std"], axis=1)
-    (line,) = plt.plot(
-        df_agg["mean"],
-        label=label,
-        color=CMAP(ix / (LEN - 1)) if CMAP and LEN else None,
-    )
+    col = CMAP(ix / (LEN - 1)) if CMAP and LEN else colors[ix] if colors else None
+    linestyle = linesytles[ix] if linesytles else None
+    plt.plot(df_agg["mean"], label=label, color=col, linestyle=linestyle)
     plt.fill_between(
         x=df_agg.index,
         y1=df_agg["mean"] - df_agg["std"],
         y2=df_agg["mean"] + df_agg["std"],
         alpha=confidence_alpha,
-        color=line.get_color(),
+        color=col,
+        # linesytle=linesytle,
     )
 try:
     if snakemake.params.flat_line:

@@ -11,27 +11,6 @@ graph_class:
     noise_mult: [0.3]
     independent_flows: [True]
     remove_unused_edges: [False]
-  BA:
-    n: [40]
-    m: [6]
-    two_cells: [50]
-    flows: [64]
-    flow_mult: [1]
-    flow_add: [0]
-    noise_mult: [0.3]
-    independent_flows: [True]
-    remove_unused_edges: [False]
-  WS:
-    n: [40]
-    p: [0.9]
-    k: [8]
-    two_cells: [50]
-    flows: [64]
-    flow_mult: [1]
-    flow_add: [0]
-    noise_mult: [0.3]
-    independent_flows: [True]
-    remove_unused_edges: [False]
 
 inference:
   mat_fact:
@@ -60,3 +39,7 @@ inference:
         r: [8]
         alpha: [5]
         # alpha: [1, 2, 5]
+  cell_flower:
+    n_candidates: [1, 7, 17]
+    n_clusters: [1, 7, 17]
+    heuristic: [4]
