@@ -140,7 +140,7 @@ Please note that the source code itself is also documented.
 
 If a `config_NAME.yaml` is changed the intermediate files are not recomputed, but only the missing ones.
 On the one hand, it is good to reuse the results.
-On the other hand, if iterations or repetitions are increased and previous intermediate results reused
+On the other hand, if iterations or repetitions are increased and previous intermediate results are reused
 then the end result is not as accurate as desired.
 Thus the according files should be deleted or a new group with the modification used.
 
@@ -148,7 +148,7 @@ In order to enable SLURM-Support the resulting paths to intermediate files are l
 Additionally, some hard-coded Strings are less intuitive, e.g. "HASH" as a separator instead of "#"
 
 The `n_best` parameter determines the maximum amount of cells that are added in each iteration.
-Each 2-cell is only added if it unique, but the same 2-cell might be inferred multiple times.
+Each 2-cell is only added if it is unique, but the same 2-cell might be inferred multiple times.
 
 ## Acknowledgements
 
